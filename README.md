@@ -1,6 +1,7 @@
 # PoliceDrone
 
 15.10.05
+
 스크립트 출처 : https://github.com/bashardawood/L3G4200D-Python
 
 i2c 통신 설정방법 : http://astrobeano.blogspot.kr/2014/01/gy-80-orientation-sensor-on-raspberry-pi.html
