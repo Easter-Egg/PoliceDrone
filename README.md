@@ -1,9 +1,8 @@
 # PoliceDrone
 
 15.10.05
-스크립트 출처 : https://github.com/bashardawood/L3G4200D-Python
-
-i2c 통신 설정방법 : http://astrobeano.blogspot.kr/2014/01/gy-80-orientation-sensor-on-raspberry-pi.html
+  스크립트 출처 : https://github.com/bashardawood/L3G4200D-Python
+  i2c 통신 설정방법 : http://astrobeano.blogspot.kr/2014/01/gy-80-orientation-sensor-on-raspberry-pi.html
 
 GPIO를 신경쓰지 않고 무작정 연결하다가 무언가가 타는 냄새를 맡음(!) 천만다행으로 센서에는 문제가 없음
 GPIO 제대로 연결하고 기울기 센서값 테스팅 스크립트 수행(Python - gyro.py)
@@ -26,3 +25,6 @@ GPIO 제대로 연결하고 기울기 센서값 테스팅 스크립트 수행(Py
 
 15.10.17
 wxPython의 간단한 예제 수행 >> button, toggle button
+
+15.10.27
+기본 ui 구현
