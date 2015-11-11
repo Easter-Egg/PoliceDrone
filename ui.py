@@ -1,5 +1,10 @@
 import wx
 import time	# for smulating
+import socket
+
+HOST = '127.0.0.1'
+PORT = 50000
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 class UI(wx.Frame):
 
@@ -31,9 +36,16 @@ class UI(wx.Frame):
 		ytb.Bind(wx.EVT_TOGGLEBUTTON, self.toggleBlue)
 
 		ubtn = wx.Button(pnl, label='Up', pos=(180, 100))
-		ubtn.SetSize((60, 40))
+		ubtn.SetSize((60, 40))  # getting up
+		ubtn.Bind(wx.EVT_BUTTON, self.altiUp)
+		
 		dbtn = wx.Button(pnl, label='Down', pos=(240, 100))
-		dbtn.SetSize((60, 40))
+		dbtn.SetSize((60, 40))  # getting down
+		dbtn.Bind(wx.EVT_BUTTON, self.altiDown)
+
+		ctrlbtn = wx.ToggleButton(pnl, label='Ctrl', pos=(260, 0))
+		ctrlbtn.SetSize((40, 40))
+		ctrlbtn.Bind(wx.EVT_TOGGLEBUTTON, self.ctrlPos)
 
 		# panel setting
 		self.SetSize((320, 240))
@@ -48,12 +60,27 @@ class UI(wx.Frame):
 	#					     #	
 	##############################################
 	def connection(self, e):
-		time.sleep(3)
-		# obj = e.GetEventObject()
-		# obj.SetLabel('Disc')
-		dial = wx.MessageDialog(None, 'Connection completed', 'info',
-			 wx.OK)
+		s.connect((HOST, PORT))
+		s.sendall('request connection')
+		data = s.recv(1024)
+		obj = e.GetEventObject()
+		obj.SetLabel('Disc')
+		dial = wx.MessageDialog(None, data, 'info', wx.OK)
 		dial.ShowModal()
+
+	##############################################
+	#					     #
+	#      read sensor data and sending data     #
+	#					     #	
+	##############################################
+	def ctrlPos(self, e):
+		obj = e.GetEventObject()
+		isPressed = obj.GetValue()
+
+		if isPressed:
+			print 'pressed'
+		else:
+			print 'released'
 
 	def OnClose(self, e):
 		self.Close(True)
@@ -63,7 +90,8 @@ class UI(wx.Frame):
 	#   display red light on LED using socket   #
 	#					    #	
 	#############################################
-	def toggleRed(self, e):
+	def toggleRed(self, e): # 1
+		s.sendall('light on RED')
 		obj = e.GetEventObject()
 		isPressed = obj.GetValue()
 		
@@ -83,7 +111,8 @@ class UI(wx.Frame):
 	#   display green light on LED using socket   #
 	#					      #	
 	###############################################
-	def toggleGreen(self, e):
+	def toggleGreen(self, e): # 2
+		s.sendall('light on Green')
 		obj = e.GetEventObject()
 		isPressed = obj.GetValue()
 		
@@ -103,7 +132,8 @@ class UI(wx.Frame):
 	#   display yellow light on LED using socket   #
 	#					       #	
 	################################################
-	def toggleBlue(self, e):
+	def toggleBlue(self, e): # 3
+		s.sendall('light on Blue')
 		obj = e.GetEventObject()
 		isPressed = obj.GetValue()
 		
@@ -117,6 +147,22 @@ class UI(wx.Frame):
 
 		self.cpnl.SetBackgroundColour(self.col)
 		self.cpnl.Refresh()
+
+	##############################################
+	#					     #
+	#     getting altitude up by 'Up' button     #
+	#					     #	
+	##############################################
+	def altiUp(self, e): # 4
+		print 'getting up'
+
+        ##############################################
+	#					     #
+	#   getting altitude down by 'Down' button   #
+	#					     #	
+	##############################################
+	def altiDown(self, e): # 4
+		print 'getting down'
 
 def main():
 	ex = wx.App()
